@@ -6,12 +6,14 @@ dependencies:
  - python>=3.5
  - cmake
  - r-essentials
+ - rstudio>=1.1.456
  - r-rgl
  - pandas
  - numpy
  - scipy
  - scikit-learn
  - jupyter
+ - jupyterlab
  - gsl
  - tzlocal
  - simplegeneric
