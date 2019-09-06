@@ -32,9 +32,7 @@ To run the tutorial case study, several packages must be installed. As both `R` 
 
 To install the `python` packages, run the following command.
 
-    ```
-    pip3 install -r requirements.txt
-    ```
+    ```pip3 install -r requirements.txt```
 
 To install the `R` dependencies run the install commands already in the notebook:
 
