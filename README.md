@@ -27,62 +27,16 @@ If the materials in this repo are of use to you, please consider citing the abov
 
 ## Environment set up
 
-To run the tutorial case study, several packages must be installed. As both `R` and `python` packages are required, we prefer using a conda environment. To facilitate the setup of a conda environment, we have provided the `sc_tutorial_environment.yml` file, which contains all conda and pip installable dependencies. R dependencies, which are not already available as conda packages, must be installed into the environment itself.
+To run the tutorial case study, several packages must be installed. As both `R` and `python` packages are required. To facilitate setup, there is a `requirements.txt` file, which contains all pip installable dependencies. R dependencies, which are not already available, must be installed in the notebook.
 
 
-To set up a conda environment, the following instructions must be followed.
-
-1. Set up the conda environment from the `sc_tutorial_environment.yml` file.
+To install the `python` packages, run the following command.
 
     ```
-    conda env create -f sc_tutorial_environment.yml
+    pip3 install -r requirements.txt
     ```
 
-2. Ensure that the environment can find the `gsl` libraries from R. This is done by setting the `CFLAGS` and `LDFLAGS` environment variables (see https://bit.ly/2CjJsgn). Here we set them so that they are correctly set every time the environment is activated.
-
-    ```
-    cd YOUR_CONDA_ENV_DIRECTORY
-    mkdir -p ./etc/conda/activate.d
-    mkdir -p ./etc/conda/deactivate.d
-    touch ./etc/conda/activate.d/env_vars.sh
-    touch ./etc/conda/deactivate.d/env_vars.sh
-    ```
-
-    Where YOUR_CONDA_ENV_DIRECTORY can be found by running `conda info --envs` and using the directory that corresponds to your conda environment name (default: sc-tutorail).
-
-    WHILE NOT IN THE ENVIRONMENT(!!!!) open the `env_vars.sh` file at `./etc/conda/activate.d/env_vars.sh` and enter the following into the file:
-
-    ```
-    #!/bin/sh
-    
-    CFLAGS_OLD=$CFLAGS
-    export CFLAGS_OLD
-    export CFLAGS="`gsl-config --cflags` ${CFLAGS_OLD}"
-     
-    LDFLAGS_OLD=$LDFLAGS
-    export LDFLAGS_OLD
-    export LDFLAGS="`gsl-config --libs` ${LDFLAGS_OLD}"
-    ```
-    
-    Also change the `./etc/conda/deactivate.d/env_vars.sh` file to:
-
-    ```
-    #!/bin/sh
-     
-    CFLAGS=$CFLAGS_OLD
-    export CFLAGS
-    unset CFLAGS_OLD
-     
-    LDFLAGS=$LDFLAGS_OLD
-    export LDFLAGS
-    unset LDFLAGS_OLD
-    ```
-    
-    Note again that these files should be written WHILE NOT IN THE ENVIRONMENT. Otherwise you may overwrite the CFLAGS and LDFLAGS environment variables in the base environment!
-
-3. Enter the environment by `conda activate sc-tutorial` or `conda activate ENV_NAME` if you changed the environment name in the `sc_tutorial_environment.yml` file.
-
-4. Open R and install the dependencies via the commands:
+To install the `R` dependencies run the install commands already in the notebook:
 
     ```
     install.packages(c('devtools', 'gam', 'RColorBrewer', 'BiocManager'))
@@ -90,13 +44,6 @@ To set up a conda environment, the following instructions must be followed.
     BiocManager::install(c("scran","MAST","monocle","ComplexHeatmap","slingshot"), version = "3.9")
     ```
  
-These steps should set up an environment to perform single cell analysis with the tutorial workflow on a Linux system. Please note that we have encountered issues with conda environments on Mac OS. When using Mac OS we recommend using the base conda environment and installing all packages as described in the `conda_env_instructions_for_mac.txt` file. In the base environment, R should be able to find the relevant gsl libraries, so `LDFLAGS` and `CFLAGS` should not need to be set.
-
-Also note that conda and pip doesn't always play nice together. Conda developers have suggested first installing all conda packages and then installing pip packages on top of this where conda packages are not available. Thus, installing further conda packages into the environment may cause issues. Instead, start a new environment and reinstall all conda packages first.
-
-If you prefer to set up an environment manually, a list of all package requirements are given at the end of this document.
-
-
 ## Downloading the data
 
 As mentioned above the data for the case study comes from GSE92332. To run the case study as shown, you must download this data and place it in the correct folder. Unpacking the data requires `tar` and `gunzip`, which should already be available on most systems. If you are cloning the github repository and have the case study script in a `latest_notebook/` folder, then from the location where you store the case study ipynb file, this can be done via the following commands:
@@ -150,13 +97,14 @@ General:
 - Python >= 3.5
 
 Python:
-- scanpy
+- scanpy==1.4.3
+- anndata==0.6.21
 - numpy
 - scipy
 - pandas
 - seaborn
 - louvain>=0.6
-- python-igraph
+- python-igraph==0.7.1.post4
 - gprofiler-official (from Case study notebook 1906 version)
 - python-gprofiler from Valentine Svensson's github (vals/python-gprofiler)
   - only needed for notebooks before version 1906
