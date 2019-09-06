@@ -1,3 +1,5 @@
+*cache/
+data/
 .DS_Store
 .Rhistory
 *.ipynb_checkpoints/
